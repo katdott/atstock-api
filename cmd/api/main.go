@@ -38,6 +38,14 @@ func main() {
 
 	// Rota 2: Entrada de Estoque (POST /entrada)
 	http.HandleFunc("/entrada", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		// Trata a requisição de pré-teste (Preflight) que o navegador faz automaticamente
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
 		if r.Method != http.MethodPost {
 			http.Error(w, "Método não permitido. Use POST.", http.StatusMethodNotAllowed)
 			return
